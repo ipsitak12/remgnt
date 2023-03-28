@@ -1,99 +1,89 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import axios from 'axios'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 const CreateBook = (props) => {
+  // Define the state with useState hook
   const navigate = useNavigate();
-  const [book, setbook] = useState( {
-  title: '',
+  const [book, setBook] = useState({
+    title: '',
     isbn: '',
     author: '',
     description: '',
     published_date: '',
     publisher: '',
-} )
+  });
 
-const onChange = (e) => {
-  setbook({
-    ...book, [e.target.name]: e.target.value
-  })
-}
-const onSubmit = (e) => {
-  e.preventDefault()
+  const onChange = (e) => {
+    setBook({ ...book, [e.target.name]: e.target.value });
+  };
 
-  axios
-  .post('https://3000-ipsitak12-remgnt-a3f5ere5ao5.ws-us90.gitpod.io/api/book',book)
-   .then(() => {
-    setbook({
-      title: '',
-    isbn: '',
-    author: '',
-    description: '',
-    published_date: '',
-    publisher: '',
-    })
-    navigate('/');
+  const onSubmit = (e) => {
+    e.preventDefault();
 
-  })
-  .catch((err) =>{
-    console.log('Failed to create a new book')
-    console.log(err)
+    axios
+      .post('https://5000-ipsitak12-remgnt-a3f5ere5ao5.ws-us92.gitpod.io/api/books', book)
+      .then((res) => {
+        setBook({
+          title: '',
+          isbn: '',
+          author: '',
+          description: '',
+          published_date: '',
+          publisher: '',
+        });
 
-  })
- }
+        // Push to /
+        navigate('/');
+      })
+      .catch((err) => {
+        console.log('Error in CreateBook!');
+        console.log('The error is -> ')
+        console.log(err)
+      });
+  };
 
- return (
-  <div className='CreateBook'>
-    <div className='container'>
-      <div className='row'>
-        
-        {/*show all books*/}
-        <div className='col-md-8 m-auto'>
-          <br />
-          <Link to='/' className='btn btn-outline-warning float-left'>
-            Show All Books 
-            </Link>
-            <Link to='/' className='btn btn-outline-warning float-left'>
-            HomePage 
-            </Link>
-
-        </div>
-
-        {/*create book from*/}
-        <div className='col-md-8 m-auto'>
-          <h1 className='display-4 text-center'>Add New Book</h1>
-          <p className='lead text-center'>Create A New Book</p>
-
-          <form noValidate onSubmit={onSubmit}>
-
-            <div className='from-group'>
-              <input
-              type='text'
-              placeholder='Title of the book'
-              name='title'
-              className='from-control'
-              value={book.title}
-              onChange={onChange} 
-              
-              />
-            </div>
+  return (
+    <div className='CreateBook'>
+      <div className='container'>
+        <div className='row'>
+          <div className='col-md-8 m-auto'>
             <br />
-            {/* tittle*/}
-            
-            <div className='from-group'>
-              <input type='text'placeholder='ISBN'
+            <Link to='/' className='btn btn-outline-warning float-left'>
+              Show BooK List
+            </Link>
+          </div>
+          <div className='col-md-8 m-auto'>
+            <h1 className='display-4 text-center'>Add Book</h1>
+            <p className='lead text-center'>Create new book</p>
+
+            <form noValidate onSubmit={onSubmit}>
+              <div className='form-group'>
+                <input
+                  type='text'
+                  placeholder='Title of the Book'
+                  name='title'
+                  className='form-control'
+                  value={book.title}
+                  onChange={onChange}
+                />
+              </div>
+              <br />
+
+              <div className='form-group'>
+                <input
+                  type='text'
+                  placeholder='ISBN'
                   name='isbn'
                   className='form-control'
                   value={book.isbn}
                   onChange={onChange}
-                  />
-            </div>
-            <br />
-            {/* isbn*/ }
+                />
+              </div>
 
-            <div className='form-group'>
+              <div className='form-group'>
                 <input
                   type='text'
                   placeholder='Author'
@@ -103,8 +93,6 @@ const onSubmit = (e) => {
                   onChange={onChange}
                 />
               </div>
-              <br />
-              {/* Author */ }
 
               <div className='form-group'>
                 <input
@@ -116,8 +104,7 @@ const onSubmit = (e) => {
                   onChange={onChange}
                 />
               </div>
-              <br />
-              {/* Describe */ }
+
               <div className='form-group'>
                 <input
                   type='date'
@@ -128,9 +115,6 @@ const onSubmit = (e) => {
                   onChange={onChange}
                 />
               </div>
-              <br />
-              {/* published */ }
-              
               <div className='form-group'>
                 <input
                   type='text'
@@ -141,28 +125,17 @@ const onSubmit = (e) => {
                   onChange={onChange}
                 />
               </div>
-              <br />
-              {/* publisher */ }
-              {/* submit */}
-        <input
-        type='submit'
-        className='btn btn-outline-warning btn-block mt-4'
-      />
 
-          </form>
+              <input
+                type='submit'
+                className='btn btn-outline-warning btn-block mt-4'
+              />
+            </form>
+          </div>
         </div>
-
-        {/* submit */}
-       
       </div>
     </div>
-  </div>
- )
-}
-// function CreateBook() {
-//   return (
-//     <div><h1>This is the CreateBook </h1></div>
-//   )
-// }
+  );
+};
 
-export default CreateBook
+export default CreateBook;

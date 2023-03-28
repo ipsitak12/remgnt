@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const db = "mongodb+srv://ipsita:f1o0ew3qI09z2jOG@cluster0.j8t4ijk.mongodb.net/?retryWrites=true&w=majority"
+const db = "mongodb+srv://ipsita:f1o0ew3qI09z2jOG@cluster0.j8t4ijk.mongodb.net/books?retryWrites=true&w=majority"
 
 const connectDB = async () => {
     try{

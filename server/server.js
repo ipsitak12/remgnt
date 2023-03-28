@@ -1,36 +1,33 @@
 const express = require("express")
 const connectDB = require("./config/db")
-const routes = require("./routes/api/books")
+const cors = require("cors")
+const books = require("./routes/api/books")
 
 const app = express()
 
 connectDB().then(() => {
-    console.log("connected to mongodb")
+    console.log("Connected to mongodb")
 })
 
+// Calling CORS
+app.use(cors({
+    origin:true,
+    credentials: true
+}))
 
-require("dotenv").config( {path: "./config.env"})
+// Init Middleware
+app.use(express.json({
+    extended: false
+}))
+
+// Handling Routes
+app.get('/', (req, res) => res.send('Hello world!'));
+app.use("/api/books", books)
+
+require("dotenv").config( { path: "./config.env" } )
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
-app.use("/", routes)
-
-// app.get("/", (req, res)=> res.send("hello world"))
 
 
-// const dbo = require("./db/conn")
-// app.listen(port, () =>{
-//     dbo.connectToServer(function (err){
-//         if(err) {
-//             console.log(err)
 
-//         }
-//     })
-//     console.log(`Server is running on port: ${port}`)
-// })
-
-//  app.get("/",(req, res) => {
-//      res.json({
-//          "project-name" : "remgmnt"
-//      })
-//  })
